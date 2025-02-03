@@ -1,0 +1,61 @@
+﻿@model Employee
+
+<div class="w-100 card border-0 p-4">
+    <div class="card-header bg-success bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Delete Employee</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body border p-4">
+        <form method="post" class="row">
+            <input asp-for="EmployeeId" hidden />
+            <div class="p-3">
+                @* <div asp-validation-summary="All"></div> *@
+                <div class="form-floating py-1 col-12">
+                    <input asp-for="EmployeeName" disabled class="form-control border shadow" />
+                    <label asp-for="EmployeeName" class="ms-2"></label>
+                </div>
+                <div class="form-floating py-1 col-12">
+                    <input asp-for="IdentityNumber" disabled class="form-control border shadow" />
+                    <label asp-for="IdentityNumber" class="ms-2"></label>
+                </div>
+                <div class="form-floating py-1 col-12">
+                    <input asp-for="Address" disabled class="form-control border shadow" />
+                    <label asp-for="Address" class="ms-2"></label>
+                </div>
+                <div class="form-floating py-1 col-12">
+                    <input asp-for="Village" disabled class="form-control border shadow" />
+                    <label asp-for="Village" class="ms-2"></label>
+                </div>
+                <div class="form-floating py-1 col-12">
+                    <input asp-for="VillagePanchayat" disabled class="form-control border shadow" />
+                    <label asp-for="VillagePanchayat" class="ms-2"></label>
+                </div>
+                <div class="form-floating py-1 col-12">
+                    <input asp-for="Taluk" disabled class="form-control border shadow" />
+                    <label asp-for="Taluk" class="ms-2"></label>
+                </div>
+                <div class="row pt-2">
+                    <div class="col-6 col-md-3">
+                        <button type="submit" class="btn btn-danger w-100">
+                            <i class="bi bi-trash-fill"></i> Delete
+                        </button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a asp-controller="Employee" asp-action="Index" class="btn btn-secondary w-100">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

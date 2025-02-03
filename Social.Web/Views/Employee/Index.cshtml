@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Employee>
+
+<div class="w-100 card border-0 p-4">
+    <div class="card-header bg-success bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">ಮ್ಯಾನ್ಯುಯಲ್ ಸ್ಕ್ಯಾವೆಂಜರ್ಸ್</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body border p-4">
+        <div class="row pb-3">
+            <div class="col-6 offset-6 text-end">
+                <a asp-controller="Employee" asp-action="Create" class="btn btn-secondary">
+                    <i class="bi bi-plus-circle"></i> ಮ್ಯಾನ್ಯುಯಲ್ ಸ್ಕ್ಯಾವೆಂಜರ್ಸ್ ಗಳ ಸೇರ್ಪಡೆ
+                </a>
+            </div>
+        </div>
+
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        ಹೆಸರು
+                    </th>
+                    <th>
+                        ಐ. ಡಿ. ನಂಬರ್
+                    </th>
+                    <th>
+                        ಗ್ರಾಮ
+                    </th>
+                    <th>
+                        ತಾಲ್ಲೂಕು
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var obj in Model)
+                {
+                    <tr>
+                        <td>@obj.EmployeeName</td>
+                        <td>@obj.IdentityNumber</td>
+                        <td>@obj.Village</td>
+                        <td>@obj.Taluk</td>
+                        <td>
+                            <div class="w-75 btn-group" role="group">
+                                <a asp-controller="Employee" asp-action="Update" asp-route-employeeId="@obj.EmployeeId"
+                                   class="btn btn-success mx-2">
+                                    ಮಾರ್ಪಡಿಸು
+                                </a>
+                                <a asp-controller="Employee" asp-action="Delete" asp-route-employeeId="@obj.EmployeeId"
+                                   class="btn btn-danger mx-2">
+                                    ಅಳಿಸು
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
