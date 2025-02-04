@@ -1,0 +1,64 @@
+﻿@model FamilyMemberVM
+
+<div class="w-100 card border-0 p-4">
+	<div class="card-header bg-success bg-gradient ml-0 py-3">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h2 class="text-white py-2">Delete Employee</h2>
+			</div>
+		</div>
+	</div>
+	<div class="card-body border p-4">
+		<form method="post" class="row">
+			<input asp-for="FamilyMember.FamilyMemberId" hidden />
+			<div class="row p-3">
+				<div class="form-floating py-1 col-12 col-md-6">
+					<select disabled asp-for="FamilyMember.EmployeeId" asp-items="@Model.EmployeeList"
+							class="form-select">
+						<option disabled selected>-- Employee --</option>
+					</select>
+					<label asp-for="FamilyMember.EmployeeId" class="ms-2"></label>
+					<span asp-validation-for="FamilyMember.EmployeeId" class="text-danger"></span>
+				</div>
+				<div class="form-floating py-1 col-12 col-md-6">
+					<input disabled asp-for="FamilyMember.FamilyMemberName" class="form-control border" />
+					<label asp-for="FamilyMember.FamilyMemberName" class="ms-2"></label>
+					<span asp-validation-for="FamilyMember.FamilyMemberName" class="text-danger"></span>
+				</div>
+				<div class="form-floating py-1 col-12 col-md-6">
+					<input disabled asp-for="FamilyMember.Relationship" class="form-control border" />
+					<label asp-for="FamilyMember.Relationship" class="ms-2"></label>
+					<span asp-validation-for="FamilyMember.Relationship" class="text-danger"></span>
+				</div>
+				<div class="form-floating py-1 col-12 col-md-6">
+					<input disabled asp-for="FamilyMember.Age" class="form-control border" />
+					<label asp-for="FamilyMember.Age" class="ms-2"></label>
+					<span asp-validation-for="FamilyMember.Age" class="text-danger"></span>
+				</div>
+				<div class="form-floating py-1 col-12 col-md-6">
+					<input disabled asp-for="FamilyMember.Education" class="form-control border" />
+					<label asp-for="FamilyMember.Education" class="ms-2"></label>
+					<span asp-validation-for="FamilyMember.Education" class="text-danger"></span>
+				</div>
+				<div class="row pt-2">
+					<div class="col-12 pb-3 col-md-6">
+						<button type="submit" class="btn btn-danger w-100">
+							<i class="bi bi-trash-fill"></i> Delete
+						</button>
+					</div>
+					<div class="col-12 col-md-6">
+						<a asp-controller="FamilyMember" asp-action="Index" class="btn btn-secondary w-100">
+							<i class="bi bi-x-circle"></i> Cancel
+						</a>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+@section Scripts {
+	@{
+		<partial name="_ValidationScriptsPartial" />
+	}
+}

@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Social.Application.Services.Interface;
 using Social.Domain.Entities;
 using Social.Infrastructure.Data;
+using Social.Web.ViewModels;
 
 namespace Social.Web.Controllers
 {
@@ -10,10 +12,12 @@ namespace Social.Web.Controllers
     public class EmployeeController : Controller
     {
         private readonly IEmployeeService _employeeService;
+        private readonly ITalukService _talukService;
 
-        public EmployeeController(IEmployeeService employeeService)
+        public EmployeeController(IEmployeeService employeeService, ITalukService talukService)
         {
             _employeeService = employeeService;
+            _talukService = talukService;
         }
 
         public IActionResult Index()
@@ -24,68 +28,100 @@ namespace Social.Web.Controllers
 
         public IActionResult Create()
         {
-            return View();
+            EmployeeVM employeeVM = new()
+            {
+                TalukList = _talukService.GetAllTaluks().Select(u => new SelectListItem
+                {
+                    Text = u.TalukName,
+                    Value = u.TalukId.ToString()
+                })
+            };
+            return View(employeeVM);
         }
 
         [HttpPost]
-        public IActionResult Create(Employee employee)
+        public IActionResult Create(EmployeeVM employeeVm)
         {
             if (ModelState.IsValid)
             {
-                _employeeService.CreateEmployee(employee);
+                _employeeService.CreateEmployee(employeeVm.Employee);
                 TempData["success"] = "The employee has been created successfully.";
                 return RedirectToAction("Index");
             }
-            return View();
+            employeeVm.TalukList = _talukService.GetAllTaluks().Select(u => new SelectListItem
+            {
+                Text = u.TalukName,
+                Value = u.TalukId.ToString()
+            });
+            return View(employeeVm);
 
         }
         public IActionResult Update(int employeeId)
         {
-            Employee? obj = _employeeService.GetEmployeeById(employeeId);
-            if (obj is null)
+            EmployeeVM employeeVM = new()
+            {
+                TalukList = _talukService.GetAllTaluks().Select(u => new SelectListItem
+                {
+                    Text = u.TalukName,
+                    Value = u.TalukId.ToString()
+                }),
+                Employee = _employeeService.GetEmployeeById(employeeId)
+            };
+            if (employeeVM.Employee == null)
             {
                 return RedirectToAction("Error", "Home");
             }
-            return View(obj);
+            return View(employeeVM);
         }
 
         [HttpPost]
-        public IActionResult Update(Employee obj)
+        public IActionResult Update(EmployeeVM employeeVm)
         {
-            if (ModelState.IsValid && obj.EmployeeId > 0)
+            if (ModelState.IsValid && employeeVm.Employee.EmployeeId > 0)
             {
-                _employeeService.UpdateEmployee(obj);
+                _employeeService.UpdateEmployee(employeeVm.Employee);
                 TempData["success"] = "The Employee has been updated successfully.";
                 return RedirectToAction(nameof(Index));
             }
-            return View();
+            employeeVm.TalukList = _talukService.GetAllTaluks().Select(u => new SelectListItem
+            {
+                Text = u.TalukName,
+                Value = u.TalukId.ToString()
+            });
+            return View(employeeVm);
         }
 
         public IActionResult Delete(int employeeId)
         {
-            Employee? obj = _employeeService.GetEmployeeById(employeeId);
-            if (obj is null)
+
+            EmployeeVM employeeVM = new()
+            {
+                TalukList = _talukService.GetAllTaluks().Select(u => new SelectListItem
+                {
+                    Text = u.TalukName,
+                    Value = u.TalukId.ToString()
+                }),
+                Employee = _employeeService.GetEmployeeById(employeeId)
+            };
+            if (employeeVM.Employee == null)
             {
                 return RedirectToAction("Error", "Home");
             }
-            return View(obj);
+            return View(employeeVM);
         }
 
 
         [HttpPost]
-        public IActionResult Delete(Employee obj)
+        public IActionResult Delete(EmployeeVM employeeVm)
         {
-            Employee? employee = _employeeService.GetEmployeeById(obj.EmployeeId);
+            Employee? employee = _employeeService.GetEmployeeById(employeeVm.Employee.EmployeeId);
             if (employee is not null)
             {
-                _employeeService.DeleteEmployee(obj.EmployeeId);
+                _employeeService.DeleteEmployee(employee.EmployeeId);
                 TempData["success"] = "The Employee has been deleted successfully.";
                 return RedirectToAction(nameof(Index));
             }
-            else
-            {
-                TempData["error"] = "Failed to delete the Employee.";
-            }
+            TempData["error"] = "Failed to delete the Employee.";
             return View();
         }
     }

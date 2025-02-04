@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Social.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class iniitialsetup : Migration
+    public partial class sample : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -53,40 +55,29 @@ namespace Social.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Employees",
+                name: "Skills",
                 columns: table => new
                 {
-                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                    SkillId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    EmployeeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IdentityNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Village = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    VillagePanchayat = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Taluk = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    HasAHouse = table.Column<bool>(type: "bit", nullable: false),
-                    HouseArea = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AppliedForHouse = table.Column<bool>(type: "bit", nullable: false),
-                    HouseApplicationScheme = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    HasASite = table.Column<bool>(type: "bit", nullable: false),
-                    SiteArea = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AppliedForSite = table.Column<bool>(type: "bit", nullable: false),
-                    SiteApplicationScheme = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    HasAToilet = table.Column<bool>(type: "bit", nullable: false),
-                    HasElectricityConnection = table.Column<bool>(type: "bit", nullable: false),
-                    HasWaterConnection = table.Column<bool>(type: "bit", nullable: false),
-                    HasAadharCard = table.Column<bool>(type: "bit", nullable: false),
-                    HasAyushmanBharatCard = table.Column<bool>(type: "bit", nullable: false),
-                    AyushmanBharatCardNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    HasHealthInsurance = table.Column<bool>(type: "bit", nullable: false),
-                    HealthInsuranceName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    HasRationCard = table.Column<bool>(type: "bit", nullable: false),
-                    HasAppliedForRationCard = table.Column<bool>(type: "bit", nullable: false),
-                    HasNaregaJobCard = table.Column<bool>(type: "bit", nullable: false)
+                    SkillName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Employees", x => x.EmployeeId);
+                    table.PrimaryKey("PK_Skills", x => x.SkillId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Taluks",
+                columns: table => new
+                {
+                    TalukId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TalukName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Taluks", x => x.TalukId);
                 });
 
             migrationBuilder.CreateTable(
@@ -195,6 +186,100 @@ namespace Social.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Employees",
+                columns: table => new
+                {
+                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EmployeeName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    IdentityNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Village = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    VillagePanchayat = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    TalukId = table.Column<int>(type: "int", nullable: false),
+                    HasAHouse = table.Column<bool>(type: "bit", nullable: false),
+                    HouseArea = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    AppliedForHouse = table.Column<bool>(type: "bit", nullable: false),
+                    HouseApplicationScheme = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    HasASite = table.Column<bool>(type: "bit", nullable: false),
+                    SiteArea = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    AppliedForSite = table.Column<bool>(type: "bit", nullable: false),
+                    SiteApplicationScheme = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    HasAToilet = table.Column<bool>(type: "bit", nullable: false),
+                    HasElectricityConnection = table.Column<bool>(type: "bit", nullable: false),
+                    HasWaterConnection = table.Column<bool>(type: "bit", nullable: false),
+                    HasAadharCard = table.Column<bool>(type: "bit", nullable: false),
+                    HasAyushmanBharatCard = table.Column<bool>(type: "bit", nullable: false),
+                    AyushmanBharatCardNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    HasHealthInsurance = table.Column<bool>(type: "bit", nullable: false),
+                    HealthInsuranceName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    HasRationCard = table.Column<bool>(type: "bit", nullable: false),
+                    HasAppliedForRationCard = table.Column<bool>(type: "bit", nullable: false),
+                    HasNaregaJobCard = table.Column<bool>(type: "bit", nullable: false),
+                    BankName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    BankBranchName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Employees", x => x.EmployeeId);
+                    table.ForeignKey(
+                        name: "FK_Employees_Taluks_TalukId",
+                        column: x => x.TalukId,
+                        principalTable: "Taluks",
+                        principalColumn: "TalukId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FamilyMembers",
+                columns: table => new
+                {
+                    FamilyMemberId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FamilyMemberName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FamilyMembers", x => x.FamilyMemberId);
+                    table.ForeignKey(
+                        name: "FK_FamilyMembers_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "EmployeeId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Skills",
+                columns: new[] { "SkillId", "SkillName" },
+                values: new object[,]
+                {
+                    { 1, "Tailoring" },
+                    { 2, "Driving" },
+                    { 3, "Computer Excel, Tally etc." },
+                    { 4, "Hotel Management" },
+                    { 5, "Dairy Farming" },
+                    { 6, "Beautician" },
+                    { 7, "Enterprises" },
+                    { 8, "Community service" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Taluks",
+                columns: new[] { "TalukId", "TalukName" },
+                values: new object[,]
+                {
+                    { 1, "Mandya" },
+                    { 2, "Krishnarajpet" },
+                    { 3, "Maddur" },
+                    { 4, "Malavalli" },
+                    { 5, "Nagamangala" },
+                    { 6, "Pandavapura" },
+                    { 7, "Shrirangapanttana" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -233,6 +318,16 @@ namespace Social.Infrastructure.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Employees_TalukId",
+                table: "Employees",
+                column: "TalukId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FamilyMembers_EmployeeId",
+                table: "FamilyMembers",
+                column: "EmployeeId");
         }
 
         /// <inheritdoc />
@@ -254,13 +349,22 @@ namespace Social.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Employees");
+                name: "FamilyMembers");
+
+            migrationBuilder.DropTable(
+                name: "Skills");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Employees");
+
+            migrationBuilder.DropTable(
+                name: "Taluks");
         }
     }
 }

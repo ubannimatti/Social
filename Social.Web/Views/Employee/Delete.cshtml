@@ -1,4 +1,4 @@
-﻿@model Employee
+﻿@model EmployeeVM
 
 <div class="w-100 card border-0 p-4">
     <div class="card-header bg-success bg-gradient ml-0 py-3">
@@ -10,40 +10,43 @@
     </div>
     <div class="card-body border p-4">
         <form method="post" class="row">
-            <input asp-for="EmployeeId" hidden />
+            <input asp-for="Employee.EmployeeId" hidden />
 			<div class="row p-3">
 				<div class="mb-4">
 					<label><strong>ವೈಯಕ್ತಿಕ ವಿವರ</strong></label>
 				</div>
 				<div class="form-floating py-1 col-12 col-md-6">
-					<input asp-for="EmployeeName" disabled class="form-control border" />
-					<label asp-for="EmployeeName" class="ms-2"></label>
-					<span asp-validation-for="EmployeeName" class="text-danger"></span>
+					<input asp-for="Employee.EmployeeName" disabled class="form-control border" />
+					<label asp-for="Employee.EmployeeName" class="ms-2"></label>
+					<span asp-validation-for="Employee.EmployeeName" class="text-danger"></span>
 				</div>
 				<div class="form-floating py-1 col-12 col-md-6">
-					<input asp-for="IdentityNumber" disabled class="form-control border" />
-					<label asp-for="IdentityNumber" class="ms-2"></label>
-					<span asp-validation-for="IdentityNumber" class="text-danger"></span>
+					<input asp-for="Employee.IdentityNumber" disabled class="form-control border" />
+					<label asp-for="Employee.IdentityNumber" class="ms-2"></label>
+					<span asp-validation-for="Employee.IdentityNumber" class="text-danger"></span>
 				</div>
 				<div class="form-floating py-1 col-12 col-md-6">
-					<input asp-for="Address" disabled class="form-control border" />
-					<label asp-for="Address" class="ms-2"></label>
-					<span asp-validation-for="Address" class="text-danger"></span>
+					<input asp-for="Employee.Address" disabled class="form-control border" />
+					<label asp-for="Employee.Address" class="ms-2"></label>
+					<span asp-validation-for="Employee.Address" class="text-danger"></span>
 				</div>
 				<div class="form-floating py-1 col-12 col-md-6">
-					<input asp-for="Village" disabled class="form-control border" />
-					<label asp-for="Village" class="ms-2"></label>
-					<span asp-validation-for="Village" class="text-danger"></span>
+					<input asp-for="Employee.Village" disabled class="form-control border" />
+					<label asp-for="Employee.Village" class="ms-2"></label>
+					<span asp-validation-for="Employee.Village" class="text-danger"></span>
 				</div>
 				<div class="form-floating py-1 col-12 col-md-6">
-					<input asp-for="VillagePanchayat" disabled class="form-control border" />
-					<label asp-for="VillagePanchayat" class="ms-2"></label>
-					<span asp-validation-for="VillagePanchayat" class="text-danger"></span>
+					<input asp-for="Employee.VillagePanchayat" disabled class="form-control border" />
+					<label asp-for="Employee.VillagePanchayat" class="ms-2"></label>
+					<span asp-validation-for="Employee.VillagePanchayat" class="text-danger"></span>
 				</div>
 				<div class="form-floating py-1 col-12 col-md-6">
-					<input asp-for="Taluk" disabled class="form-control border" />
-					<label asp-for="Taluk" class="ms-2"></label>
-					<span asp-validation-for="Taluk" class="text-danger"></span>
+					<select disabled asp-for="Employee.TalukId" asp-items="@Model.TalukList"
+							class="form-select">
+						<option disabled selected>-- ತಾಲ್ಲೂಕು --</option>
+					</select>
+					<label asp-for="Employee.TalukId" class="ms-2"></label>
+					<span asp-validation-for="Employee.TalukId" class="text-danger"></span>
 				</div>
 				<div class="row mt-4 border-0">
 					<div>
@@ -51,46 +54,46 @@
 					</div>
 					<div class="form-floating py-1 col-12 col-md-6">
 						<div class="checkbox mt-3">
-							<input class="form-check-input border" asp-for="HasAHouse" disabled />
-							<label asp-for="HasAHouse" class="form-label"></label>
+							<input class="form-check-input border" asp-for="Employee.HasAHouse" disabled />
+							<label asp-for="Employee.HasAHouse" class="form-label"></label>
 						</div>
 						<div class="form-floating py-1">
-							<input asp-for="HouseArea" class="form-control border" disabled />
-							<label asp-for="HouseArea" class="ms-2"></label>
-							<span asp-validation-for="HouseArea" class="text-danger"></span>
+							<input asp-for="Employee.HouseArea" class="form-control border" disabled />
+							<label asp-for="Employee.HouseArea" class="ms-2"></label>
+							<span asp-validation-for="Employee.HouseArea" class="text-danger"></span>
 						</div>
 					</div>
 					<div class="form-floating py-1 col-12 col-md-6">
 						<div class="checkbox mt-3">
-							<input class="form-check-input border" asp-for="AppliedForHouse" disabled />
-							<label asp-for="AppliedForHouse" class="form-label"></label>
+							<input class="form-check-input border" asp-for="Employee.AppliedForHouse" disabled />
+							<label asp-for="Employee.AppliedForHouse" class="form-label"></label>
 						</div>
 						<div class="form-floating py-1">
-							<input asp-for="HouseApplicationScheme" disabled class="form-control border" />
-							<label asp-for="HouseApplicationScheme" class="ms-2"></label>
-							<span asp-validation-for="HouseApplicationScheme" class="text-danger"></span>
+							<input asp-for="Employee.HouseApplicationScheme" disabled class="form-control border" />
+							<label asp-for="Employee.HouseApplicationScheme" class="ms-2"></label>
+							<span asp-validation-for="Employee.HouseApplicationScheme" class="text-danger"></span>
 						</div>
 					</div>
 					<div class="form-floating py-1 col-12 col-md-6">
 						<div class="checkbox mt-3">
-							<input class="form-check-input border" asp-for="HasASite" disabled />
-							<label asp-for="HasASite" class="form-label"></label>
+							<input class="form-check-input border" asp-for="Employee.HasASite" disabled />
+							<label asp-for="Employee.HasASite" class="form-label"></label>
 						</div>
 						<div class="form-floating py-1">
-							<input asp-for="SiteArea" disabled class="form-control border" />
-							<label asp-for="SiteArea" class="ms-2"></label>
-							<span asp-validation-for="SiteArea" class="text-danger"></span>
+							<input asp-for="Employee.SiteArea" disabled class="form-control border" />
+							<label asp-for="Employee.SiteArea" class="ms-2"></label>
+							<span asp-validation-for="Employee.SiteArea" class="text-danger"></span>
 						</div>
 					</div>
 					<div class="form-floating py-1 col-12 col-md-6">
 						<div class="checkbox mt-3">
-							<input class="form-check-input border" asp-for="AppliedForSite" disabled />
-							<label asp-for="AppliedForSite" class="form-label"></label>
+							<input class="form-check-input border" asp-for="Employee.AppliedForSite" disabled />
+							<label asp-for="Employee.AppliedForSite" class="form-label"></label>
 						</div>
 						<div class="form-floating py-1">
-							<input asp-for="SiteApplicationScheme" class="form-control border" disabled />
-							<label asp-for="SiteApplicationScheme" class="ms-2"></label>
-							<span asp-validation-for="SiteApplicationScheme" class="text-danger"></span>
+							<input asp-for="Employee.SiteApplicationScheme" class="form-control border" disabled />
+							<label asp-for="Employee.SiteApplicationScheme" class="ms-2"></label>
+							<span asp-validation-for="Employee.SiteApplicationScheme" class="text-danger"></span>
 						</div>
 					</div>
 				</div>
@@ -98,20 +101,20 @@
 				<div class="border-0">
 					<div class="form-floating py-1 row">
 						<div class="checkbox mt-3 col-12 col-md-6">
-							<input class="form-check-input border" asp-for="HasAToilet" disabled />
-							<label asp-for="HasAToilet" class="form-label"></label>
+							<input class="form-check-input border" asp-for="Employee.HasAToilet" disabled />
+							<label asp-for="Employee.HasAToilet" class="form-label"></label>
 						</div>
 						<div class="checkbox mt-3 col-12 col-md-6">
-							<input class="form-check-input border" asp-for="HasElectricityConnection" disabled />
-							<label asp-for="HasElectricityConnection" class="form-label"></label>
+							<input class="form-check-input border" asp-for="Employee.HasElectricityConnection" disabled />
+							<label asp-for="Employee.HasElectricityConnection" class="form-label"></label>
 						</div>
 						<div class="checkbox mt-3 col-12 col-md-6">
-							<input class="form-check-input border" asp-for="HasWaterConnection" disabled />
-							<label asp-for="HasWaterConnection" class="form-label"></label>
+							<input class="form-check-input border" asp-for="Employee.HasWaterConnection" disabled />
+							<label asp-for="Employee.HasWaterConnection" class="form-label"></label>
 						</div>
 						<div class="checkbox mt-3 col-12 col-md-6">
-							<input class="form-check-input border" asp-for="HasAadharCard" disabled />
-							<label asp-for="HasAadharCard" class="form-label"></label>
+							<input class="form-check-input border" asp-for="Employee.HasAadharCard" disabled />
+							<label asp-for="Employee.HasAadharCard" class="form-label"></label>
 						</div>
 					</div>
 				</div>
@@ -121,40 +124,52 @@
 					</div>
 					<div class="form-floating py-1 col-12 col-md-6">
 						<div class="checkbox mt-3">
-							<input class="form-check-input border" asp-for="HasAyushmanBharatCard" disabled />
-							<label asp-for="HasAyushmanBharatCard" class="form-label"></label>
+							<input class="form-check-input border" asp-for="Employee.HasAyushmanBharatCard" disabled />
+							<label asp-for="Employee.HasAyushmanBharatCard" class="form-label"></label>
 						</div>
 						<div class="form-floating py-1">
-							<input asp-for="AyushmanBharatCardNumber" class="form-control border" disabled />
-							<label asp-for="AyushmanBharatCardNumber" class="ms-2"></label>
-							<span asp-validation-for="AyushmanBharatCardNumber" class="text-danger"></span>
+							<input asp-for="Employee.AyushmanBharatCardNumber" class="form-control border" disabled />
+							<label asp-for="Employee.AyushmanBharatCardNumber" class="ms-2"></label>
+							<span asp-validation-for="Employee.AyushmanBharatCardNumber" class="text-danger"></span>
 						</div>
 					</div>
 					<div class="form-floating py-1 col-12 col-md-6">
 						<div class="checkbox mt-3">
-							<input class="form-check-input border" asp-for="HasHealthInsurance" disabled />
-							<label asp-for="HasHealthInsurance" class="form-label"></label>
+							<input class="form-check-input border" asp-for="Employee.HasHealthInsurance" disabled />
+							<label asp-for="Employee.HasHealthInsurance" class="form-label"></label>
 						</div>
 						<div class="form-floating py-1">
-							<input asp-for="HealthInsuranceName" class="form-control border" disabled />
-							<label asp-for="HealthInsuranceName" class="ms-2"></label>
-							<span asp-validation-for="HealthInsuranceName" class="text-danger"></span>
+							<input asp-for="Employee.HealthInsuranceName" class="form-control border" disabled />
+							<label asp-for="Employee.HealthInsuranceName" class="ms-2"></label>
+							<span asp-validation-for="Employee.HealthInsuranceName" class="text-danger"></span>
 						</div>
 					</div>
 					<div class="form-floating py-1 col-12 col-md-6">
 						<div class="checkbox mt-3">
-							<input class="form-check-input border" asp-for="HasRationCard" disabled />
-							<label asp-for="HasRationCard" class="form-label"></label>
+							<input class="form-check-input border" asp-for="Employee.HasRationCard" disabled />
+							<label asp-for="Employee.HasRationCard" class="form-label"></label>
 						</div>
 						<div class="checkbox mt-3">
-							<input class="form-check-input border" asp-for="HasAppliedForRationCard" disabled />
-							<label asp-for="HasAppliedForRationCard" class="form-label"></label>
+							<input class="form-check-input border" asp-for="Employee.HasAppliedForRationCard" disabled />
+							<label asp-for="Employee.HasAppliedForRationCard" class="form-label"></label>
 						</div>
 					</div>
 					<div class="form-floating py-1 col-12 col-md-6">
 						<div class="checkbox mt-3">
-							<input class="form-check-input border" asp-for="HasNaregaJobCard" disabled />
-							<label asp-for="HasNaregaJobCard" class="form-label"></label>
+							<input class="form-check-input border" asp-for="Employee.HasNaregaJobCard" disabled />
+							<label asp-for="Employee.HasNaregaJobCard" class="form-label"></label>
+						</div>
+					</div>
+					<div class="form-floating py-1 col-12 col-md-6">
+						<div class="form-floating py-1">
+							<input asp-for="Employee.BankName" class="form-control border" disabled />
+							<label asp-for="Employee.BankName" class="ms-2"></label>
+						</div>
+					</div>
+					<div class="form-floating py-1 col-12 col-md-6">
+						<div class="form-floating py-1">
+							<input asp-for="Employee.BankBranchName" class="form-control border" disabled />
+							<label asp-for="Employee.BankBranchName" class="ms-2"></label>
 						</div>
 					</div>
 				</div>

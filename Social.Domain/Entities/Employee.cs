@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace Social.Domain.Entities
 {
@@ -24,17 +23,20 @@ namespace Social.Domain.Entities
         [DisplayName("ವಿಳಾಸ")]
         public required string Address { get; set; }
 
-        [MaxLength(20)]
+        [MaxLength(30)]
         [DisplayName("ಗ್ರಾಮ")]
         public required string Village { get; set; }
 
-        [MaxLength(20)]
+        [MaxLength(30)]
         [DisplayName("ಗ್ರಾಮ ಪಂಚಾಯತಿ")]
         public required string VillagePanchayat { get; set; }
 
-        [MaxLength(20)]
-        [DisplayName("ತಾಲ್ಲೂಕು")]
-        public required string Taluk { get; set; }
+        [Display(Name = "ತಾಲ್ಲೂಕು")]
+        [ForeignKey("Taluk")]
+        public int TalukId { get; set; }
+
+        [ValidateNever]
+        public Taluk Taluk { get; set; }
 
         [DisplayName("ಸ್ವಂತ ಮನೆ ಹೊಂದಿದ್ದಾರೆಯೇ?")]
         public required bool HasAHouse { get; set; }
@@ -60,7 +62,7 @@ namespace Social.Domain.Entities
         [DisplayName("ನಿವೇಶನಕ್ಕಾಗಿ ಅರ್ಜಿ ಸಲ್ಲಿಸಿದ್ದಾರೆಯೇ?")]
         public required bool AppliedForSite { get; set; }
 
-        [MaxLength(20)]
+        [MaxLength(30)]
         [DisplayName("ನಿವೇಶನಕ್ಕಾಗಿ ಅರ್ಜಿ ಯೋಜನೆಯ ಹೆಸರು")]
         public string? SiteApplicationScheme { get; set; }
 
@@ -83,7 +85,7 @@ namespace Social.Domain.Entities
         [DisplayName("ವಿಮೆ ಹೊಂದಿದ್ದಾರೆಯೇ?")]
         public required bool HasHealthInsurance { get; set; }
 
-        [MaxLength(20)]
+        [MaxLength(30)]
         [DisplayName("ವಿಮೆ ಹೆಸರು")]
         public string? HealthInsuranceName { get; set; }
         [DisplayName("ಪಡಿತರ ಚೀಟಿ ಇದೆಯೇ?")]
@@ -92,5 +94,14 @@ namespace Social.Domain.Entities
         public required bool HasAppliedForRationCard { get; set; }
         [DisplayName("ನರೇಗಾ ಜಾಬ್ ಕಾರ್ಡ್ ಇದೆಯೇ?")]
         public required bool HasNaregaJobCard { get; set; }
+
+
+        [MaxLength(30)]
+        [DisplayName("ಬ್ಯಾಂಕ್ ಹೆಸರು")]
+        public required string BankName { get; set; }
+
+        [MaxLength(30)]
+        [DisplayName("ಬ್ಯಾಂಕ್ ಶಾಖೆ ಹೆಸರು")]
+        public required string BankBranchName { get; set; }
     }
 }

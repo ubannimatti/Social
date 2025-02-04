@@ -9,6 +9,9 @@ namespace Social.Application.Common.Interfaces
     public interface IUnitOfWork
     {
         IEmployeeRepository Employee { get; }
+        ITalukRepository Taluk { get; }
+        IFamilyMemberRepository FamilyMember { get; }
+        ISkillRepository Skill { get; }
         void Save();
     }
 }

@@ -18,8 +18,4 @@
     <ProjectReference Include="..\Social.Infrastructure\Social.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
-
 </Project>

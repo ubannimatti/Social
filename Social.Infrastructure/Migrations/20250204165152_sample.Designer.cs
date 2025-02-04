@@ -12,8 +12,8 @@ using Social.Infrastructure.Data;
 namespace Social.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250203044741_iniitial-setup")]
-    partial class iniitialsetup
+    [Migration("20250204165152_sample")]
+    partial class sample
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -240,7 +240,8 @@ namespace Social.Infrastructure.Migrations
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("AppliedForHouse")
                         .HasColumnType("bit");
@@ -249,11 +250,23 @@ namespace Social.Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("AyushmanBharatCardNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("BankBranchName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("BankName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("EmployeeName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<bool>("HasAHouse")
                         .HasColumnType("bit");
@@ -289,39 +302,186 @@ namespace Social.Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("HealthInsuranceName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("HouseApplicationScheme")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("HouseArea")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("IdentityNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("SiteApplicationScheme")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("SiteArea")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
-                    b.Property<string>("Taluk")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("TalukId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Village")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("VillagePanchayat")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.HasKey("EmployeeId");
 
+                    b.HasIndex("TalukId");
+
                     b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("Social.Domain.Entities.FamilyMember", b =>
+                {
+                    b.Property<int>("FamilyMemberId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FamilyMemberId"));
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FamilyMemberName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.HasKey("FamilyMemberId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("FamilyMembers");
+                });
+
+            modelBuilder.Entity("Social.Domain.Entities.Skill", b =>
+                {
+                    b.Property<int>("SkillId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SkillId"));
+
+                    b.Property<string>("SkillName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.HasKey("SkillId");
+
+                    b.ToTable("Skills");
+
+                    b.HasData(
+                        new
+                        {
+                            SkillId = 1,
+                            SkillName = "Tailoring"
+                        },
+                        new
+                        {
+                            SkillId = 2,
+                            SkillName = "Driving"
+                        },
+                        new
+                        {
+                            SkillId = 3,
+                            SkillName = "Computer Excel, Tally etc."
+                        },
+                        new
+                        {
+                            SkillId = 4,
+                            SkillName = "Hotel Management"
+                        },
+                        new
+                        {
+                            SkillId = 5,
+                            SkillName = "Dairy Farming"
+                        },
+                        new
+                        {
+                            SkillId = 6,
+                            SkillName = "Beautician"
+                        },
+                        new
+                        {
+                            SkillId = 7,
+                            SkillName = "Enterprises"
+                        },
+                        new
+                        {
+                            SkillId = 8,
+                            SkillName = "Community service"
+                        });
+                });
+
+            modelBuilder.Entity("Social.Domain.Entities.Taluk", b =>
+                {
+                    b.Property<int>("TalukId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TalukId"));
+
+                    b.Property<string>("TalukName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.HasKey("TalukId");
+
+                    b.ToTable("Taluks");
+
+                    b.HasData(
+                        new
+                        {
+                            TalukId = 1,
+                            TalukName = "Mandya"
+                        },
+                        new
+                        {
+                            TalukId = 2,
+                            TalukName = "Krishnarajpet"
+                        },
+                        new
+                        {
+                            TalukId = 3,
+                            TalukName = "Maddur"
+                        },
+                        new
+                        {
+                            TalukId = 4,
+                            TalukName = "Malavalli"
+                        },
+                        new
+                        {
+                            TalukId = 5,
+                            TalukName = "Nagamangala"
+                        },
+                        new
+                        {
+                            TalukId = 6,
+                            TalukName = "Pandavapura"
+                        },
+                        new
+                        {
+                            TalukId = 7,
+                            TalukName = "Shrirangapanttana"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -373,6 +533,28 @@ namespace Social.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Social.Domain.Entities.Employee", b =>
+                {
+                    b.HasOne("Social.Domain.Entities.Taluk", "Taluk")
+                        .WithMany()
+                        .HasForeignKey("TalukId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Taluk");
+                });
+
+            modelBuilder.Entity("Social.Domain.Entities.FamilyMember", b =>
+                {
+                    b.HasOne("Social.Domain.Entities.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
                 });
 #pragma warning restore 612, 618
         }

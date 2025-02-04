@@ -12,10 +12,20 @@ namespace Social.Infrastructure.Repository
     {
         private readonly ApplicationDbContext _db;
         public IEmployeeRepository Employee { get; private set; }
+
+        public ITalukRepository Taluk { get; private set; }
+
+        public IFamilyMemberRepository FamilyMember { get; private set; }
+
+        public ISkillRepository Skill { get; private set; }
+
         public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
             Employee = new EmployeeRepository(_db);
+            Skill = new SkillRepository(_db);
+            FamilyMember = new FamilyMemberRepository(_db);
+            Taluk = new TalukRepository(_db);
         }
 
         public void Save()
