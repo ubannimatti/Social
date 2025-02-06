@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Social.Application.Services.Interface;
 using Social.Domain.Entities;
 using Social.Infrastructure.Data;
@@ -12,12 +13,16 @@ namespace Social.Web.Controllers
     public class EmployeeController : Controller
     {
         private readonly IEmployeeService _employeeService;
+        private readonly IEmployeeSkillService _employeeSkillService;
         private readonly ITalukService _talukService;
+        private readonly ISkillService _skillService;
 
-        public EmployeeController(IEmployeeService employeeService, ITalukService talukService)
+        public EmployeeController(IEmployeeService employeeService, ITalukService talukService, ISkillService skillService, IEmployeeSkillService employeeSkillService)
         {
             _employeeService = employeeService;
             _talukService = talukService;
+            _skillService = skillService;
+            _employeeSkillService = employeeSkillService;
         }
 
         public IActionResult Index()
@@ -30,11 +35,8 @@ namespace Social.Web.Controllers
         {
             EmployeeVM employeeVM = new()
             {
-                TalukList = _talukService.GetAllTaluks().Select(u => new SelectListItem
-                {
-                    Text = u.TalukName,
-                    Value = u.TalukId.ToString()
-                })
+                TalukList = GetTalukList(),
+                SkillList = GetSkillList()
             };
             return View(employeeVM);
         }
@@ -45,27 +47,25 @@ namespace Social.Web.Controllers
             if (ModelState.IsValid)
             {
                 _employeeService.CreateEmployee(employeeVm.Employee);
+                UpdateEmployeeSkills(employeeVm);
+
                 TempData["success"] = "The employee has been created successfully.";
                 return RedirectToAction("Index");
             }
-            employeeVm.TalukList = _talukService.GetAllTaluks().Select(u => new SelectListItem
-            {
-                Text = u.TalukName,
-                Value = u.TalukId.ToString()
-            });
+            employeeVm.TalukList = GetTalukList();
+            employeeVm.SkillList = GetSkillList();
             return View(employeeVm);
 
         }
         public IActionResult Update(int employeeId)
         {
+            var emp = _employeeService.GetEmployeeById(employeeId);
             EmployeeVM employeeVM = new()
             {
-                TalukList = _talukService.GetAllTaluks().Select(u => new SelectListItem
-                {
-                    Text = u.TalukName,
-                    Value = u.TalukId.ToString()
-                }),
-                Employee = _employeeService.GetEmployeeById(employeeId)
+                TalukList = GetTalukList(),
+                SkillList = GetSkillList(),
+                Employee = emp,
+                SelectedSkills = emp.EmployeeSkills.Select(x => x.SkillId).ToList()
             };
             if (employeeVM.Employee == null)
             {
@@ -80,28 +80,47 @@ namespace Social.Web.Controllers
             if (ModelState.IsValid && employeeVm.Employee.EmployeeId > 0)
             {
                 _employeeService.UpdateEmployee(employeeVm.Employee);
+
+                _employeeSkillService.DeleteEmployeeSkills(employeeVm.Employee.EmployeeId);
+                UpdateEmployeeSkills(employeeVm);
+
                 TempData["success"] = "The Employee has been updated successfully.";
                 return RedirectToAction(nameof(Index));
             }
-            employeeVm.TalukList = _talukService.GetAllTaluks().Select(u => new SelectListItem
-            {
-                Text = u.TalukName,
-                Value = u.TalukId.ToString()
-            });
+
+
+
+            employeeVm.TalukList = GetTalukList();
+            employeeVm.SkillList = GetSkillList();
             return View(employeeVm);
         }
 
         public IActionResult Delete(int employeeId)
         {
-
+            var emp = _employeeService.GetEmployeeById(employeeId);
             EmployeeVM employeeVM = new()
             {
-                TalukList = _talukService.GetAllTaluks().Select(u => new SelectListItem
-                {
-                    Text = u.TalukName,
-                    Value = u.TalukId.ToString()
-                }),
-                Employee = _employeeService.GetEmployeeById(employeeId)
+                TalukList = GetTalukList(),
+                SkillList = GetSkillList(),
+                Employee = emp,
+                SelectedSkills = emp.EmployeeSkills.Select(x=>x.SkillId).ToList()
+            };
+            if (employeeVM.Employee == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            return View(employeeVM);
+        }
+
+        public IActionResult Details(int employeeId)
+        {
+            var emp = _employeeService.GetEmployeeById(employeeId);
+            EmployeeVM employeeVM = new()
+            {
+                TalukList = GetTalukList(),
+                SkillList = GetSkillList(),
+                Employee = emp,
+                SelectedSkills = emp.EmployeeSkills.Select(x => x.SkillId).ToList()
             };
             if (employeeVM.Employee == null)
             {
@@ -124,5 +143,39 @@ namespace Social.Web.Controllers
             TempData["error"] = "Failed to delete the Employee.";
             return View();
         }
+
+        private IEnumerable<SelectListItem> GetTalukList()
+        {
+            return _talukService.GetAllTaluks().Select(u => new SelectListItem
+            {
+                Text = u.TalukName,
+                Value = u.TalukId.ToString()
+            });
+        }
+        private IEnumerable<SelectListItem> GetSkillList()
+        {
+            return _skillService.GetAllSkills().Select(u => new SelectListItem
+            {
+                Text = u.SkillName,
+                Value = u.SkillId.ToString()
+            });
+        }
+
+        private void UpdateEmployeeSkills(EmployeeVM employeeVm)
+        {
+            if (employeeVm.SelectedSkills != null)
+            {
+                foreach (var skillId in employeeVm.SelectedSkills)
+                {
+                    var empSkill = new EmployeeSkill
+                    {
+                        EmployeeId = employeeVm.Employee.EmployeeId,
+                        SkillId = skillId
+                    };
+                    _employeeSkillService.CreateEmployeeSkill(empSkill);
+                }
+            }
+        }
     }
+
 }

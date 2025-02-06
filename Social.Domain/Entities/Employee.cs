@@ -103,5 +103,12 @@ namespace Social.Domain.Entities
         [MaxLength(30)]
         [DisplayName("ಬ್ಯಾಂಕ್ ಶಾಖೆ ಹೆಸರು")]
         public required string BankBranchName { get; set; }
+
+        
+        [ValidateNever]
+        public IEnumerable<EmployeeSkill> EmployeeSkills { get; set; }
+
+        [ValidateNever]
+        public IEnumerable<FamilyMember> FamilyMembers { get; set; }
     }
 }

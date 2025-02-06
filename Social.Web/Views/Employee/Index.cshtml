@@ -45,6 +45,10 @@
                         <td>@obj.Taluk</td>
                         <td>
                             <div class="w-75 btn-group" role="group">
+                                <a asp-controller="Employee" asp-action="Details" asp-route-employeeId="@obj.EmployeeId"
+                                   class="btn btn-success mx-2">
+                                    Details
+                                </a>
                                 <a asp-controller="Employee" asp-action="Update" asp-route-employeeId="@obj.EmployeeId"
                                    class="btn btn-success mx-2">
                                     ಮಾರ್ಪಡಿಸು

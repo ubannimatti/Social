@@ -50,7 +50,7 @@ namespace Social.Application.Services.Implementation
 
         public Employee GetEmployeeById(int id)
         {
-            return _unitOfWork.Employee.Get(u => u.EmployeeId == id);
+            return _unitOfWork.Employee.Get(u => u.EmployeeId == id, "EmployeeSkills, FamilyMembers");
         }
 
         public void UpdateEmployee(Employee Employee)

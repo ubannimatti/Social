@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Social.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class sample : Migration
+    public partial class dsa : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -232,13 +232,41 @@ namespace Social.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "EmployeeSkills",
+                columns: table => new
+                {
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    SkillId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmployeeSkills", x => new { x.EmployeeId, x.SkillId });
+                    table.ForeignKey(
+                        name: "FK_EmployeeSkills_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "EmployeeId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EmployeeSkills_Skills_SkillId",
+                        column: x => x.SkillId,
+                        principalTable: "Skills",
+                        principalColumn: "SkillId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "FamilyMembers",
                 columns: table => new
                 {
                     FamilyMemberId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FamilyMemberName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    Relationship = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Age = table.Column<int>(type: "int", nullable: false),
+                    Education = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -325,6 +353,11 @@ namespace Social.Infrastructure.Migrations
                 column: "TalukId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_EmployeeSkills_SkillId",
+                table: "EmployeeSkills",
+                column: "SkillId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_FamilyMembers_EmployeeId",
                 table: "FamilyMembers",
                 column: "EmployeeId");
@@ -349,16 +382,19 @@ namespace Social.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "FamilyMembers");
+                name: "EmployeeSkills");
 
             migrationBuilder.DropTable(
-                name: "Skills");
+                name: "FamilyMembers");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Skills");
 
             migrationBuilder.DropTable(
                 name: "Employees");

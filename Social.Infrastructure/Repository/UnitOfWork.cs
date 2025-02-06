@@ -12,6 +12,7 @@ namespace Social.Infrastructure.Repository
     {
         private readonly ApplicationDbContext _db;
         public IEmployeeRepository Employee { get; private set; }
+        public IEmployeeSkillRepository EmployeeSkill { get; private set; }
 
         public ITalukRepository Taluk { get; private set; }
 
@@ -23,6 +24,7 @@ namespace Social.Infrastructure.Repository
         {
             _db = db;
             Employee = new EmployeeRepository(_db);
+            EmployeeSkill = new EmployeeSkillRepository(_db);
             Skill = new SkillRepository(_db);
             FamilyMember = new FamilyMemberRepository(_db);
             Taluk = new TalukRepository(_db);

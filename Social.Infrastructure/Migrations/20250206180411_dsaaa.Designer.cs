@@ -12,8 +12,8 @@ using Social.Infrastructure.Data;
 namespace Social.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250204165152_sample")]
-    partial class sample
+    [Migration("20250206180411_dsaaa")]
+    partial class dsaaa
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -346,6 +346,24 @@ namespace Social.Infrastructure.Migrations
                     b.ToTable("Employees");
                 });
 
+            modelBuilder.Entity("Social.Domain.Entities.EmployeeSkill", b =>
+                {
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SkillId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("EmployeeId", "SkillId");
+
+                    b.HasIndex("SkillId");
+
+                    b.ToTable("EmployeeSkills");
+                });
+
             modelBuilder.Entity("Social.Domain.Entities.FamilyMember", b =>
                 {
                     b.Property<int>("FamilyMemberId")
@@ -354,10 +372,27 @@ namespace Social.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FamilyMemberId"));
 
+                    b.Property<int>("Age")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Education")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
                     b.Property<string>("FamilyMemberName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("Relationship")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RequiredTraining")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
@@ -546,15 +581,41 @@ namespace Social.Infrastructure.Migrations
                     b.Navigation("Taluk");
                 });
 
+            modelBuilder.Entity("Social.Domain.Entities.EmployeeSkill", b =>
+                {
+                    b.HasOne("Social.Domain.Entities.Employee", "Employee")
+                        .WithMany("EmployeeSkills")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Social.Domain.Entities.Skill", "Skill")
+                        .WithMany()
+                        .HasForeignKey("SkillId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+
+                    b.Navigation("Skill");
+                });
+
             modelBuilder.Entity("Social.Domain.Entities.FamilyMember", b =>
                 {
                     b.HasOne("Social.Domain.Entities.Employee", "Employee")
-                        .WithMany()
+                        .WithMany("FamilyMembers")
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("Social.Domain.Entities.Employee", b =>
+                {
+                    b.Navigation("EmployeeSkills");
+
+                    b.Navigation("FamilyMembers");
                 });
 #pragma warning restore 612, 618
         }

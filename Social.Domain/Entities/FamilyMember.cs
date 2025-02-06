@@ -37,5 +37,9 @@ namespace Social.Domain.Entities
         [DisplayName("Education")]
         public string Education { get; set; }
 
+        [MaxLength(30)]
+        [DisplayName("Required Training")]
+        public string RequiredTraining { get; set; }
+
     }
 }

@@ -12,8 +12,8 @@ using Social.Infrastructure.Data;
 namespace Social.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250204175418_1234")]
-    partial class _1234
+    [Migration("20250206173320_dsa")]
+    partial class dsa
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -346,6 +346,24 @@ namespace Social.Infrastructure.Migrations
                     b.ToTable("Employees");
                 });
 
+            modelBuilder.Entity("Social.Domain.Entities.EmployeeSkill", b =>
+                {
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SkillId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("EmployeeId", "SkillId");
+
+                    b.HasIndex("SkillId");
+
+                    b.ToTable("EmployeeSkills");
+                });
+
             modelBuilder.Entity("Social.Domain.Entities.FamilyMember", b =>
                 {
                     b.Property<int>("FamilyMemberId")
@@ -558,6 +576,25 @@ namespace Social.Infrastructure.Migrations
                     b.Navigation("Taluk");
                 });
 
+            modelBuilder.Entity("Social.Domain.Entities.EmployeeSkill", b =>
+                {
+                    b.HasOne("Social.Domain.Entities.Employee", "Employee")
+                        .WithMany("EmployeeSkills")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Social.Domain.Entities.Skill", "Skill")
+                        .WithMany()
+                        .HasForeignKey("SkillId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+
+                    b.Navigation("Skill");
+                });
+
             modelBuilder.Entity("Social.Domain.Entities.FamilyMember", b =>
                 {
                     b.HasOne("Social.Domain.Entities.Employee", "Employee")
@@ -567,6 +604,11 @@ namespace Social.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("Social.Domain.Entities.Employee", b =>
+                {
+                    b.Navigation("EmployeeSkills");
                 });
 #pragma warning restore 612, 618
         }

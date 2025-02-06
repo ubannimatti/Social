@@ -154,28 +154,32 @@
 							<input class="form-check-input border" asp-for="Employee.HasAppliedForRationCard" />
 							<label asp-for="Employee.HasAppliedForRationCard" class="form-label"></label>
 						</div>
-					</div>
-					<div class="form-floating py-1 col-12 col-md-6">
 						<div class="checkbox mt-3">
 							<input class="form-check-input border" asp-for="Employee.HasNaregaJobCard" />
 							<label asp-for="Employee.HasNaregaJobCard" class="form-label"></label>
 						</div>
-					</div>
-					<div class="form-floating py-1 col-12 col-md-6">
 						<div class="form-floating py-1">
 							<input asp-for="Employee.BankName" class="form-control border" />
 							<label asp-for="Employee.BankName" class="ms-2"></label>
 							<span asp-validation-for="Employee.BankName" class="text-danger"></span>
 						</div>
-					</div>
-					<div class="form-floating py-1 col-12 col-md-6">
 						<div class="form-floating py-1">
 							<input asp-for="Employee.BankBranchName" class="form-control border" />
 							<label asp-for="Employee.BankBranchName" class="ms-2"></label>
 							<span asp-validation-for="Employee.BankBranchName" class="text-danger"></span>
 						</div>
 					</div>
+					<div class="form-floating py-1 col-12 col-md-6">
+						<select asp-for="SelectedSkills" multiple asp-items="@Model.SkillList"
+								class="form-control" style="height:17rem;">
+							<option disabled selected>-- Skills --</option>
+						</select>
+						<label asp-for="SelectedSkills" class="ms-2"></label>
+						<span asp-validation-for="SelectedSkills" class="text-danger"></span>
+					</div>
 				</div>
+
+				
 
 				<div class="row pt-2">
 					<div class="col-12 pb-3 col-md-6">

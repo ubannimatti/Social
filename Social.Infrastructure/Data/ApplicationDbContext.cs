@@ -19,6 +19,7 @@ namespace Social.Infrastructure.Data
         public DbSet<Taluk> Taluks { get; set; }
         public DbSet<FamilyMember> FamilyMembers { get; set; }
         public DbSet<Skill> Skills { get; set; }
+        public DbSet<EmployeeSkill> EmployeeSkills { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -32,6 +33,15 @@ namespace Social.Infrastructure.Data
             modelBuilder.Entity<Skill>().HasData(
                 GetSkills()
             );
+
+
+            modelBuilder.Entity<EmployeeSkill>()
+           .HasKey(es => new { es.EmployeeId, es.SkillId });
+
+            modelBuilder.Entity<EmployeeSkill>()
+                .HasOne(es => es.Employee)
+                .WithMany(e => e.EmployeeSkills)
+                .HasForeignKey(es => es.EmployeeId);
         }
 
         private IEnumerable<Taluk> GetTaluks()
