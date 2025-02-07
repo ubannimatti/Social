@@ -9,7 +9,7 @@ namespace Social.Application.Services.Interface
 {
     public interface IFamilyMemberService
     {
-        IEnumerable<FamilyMember> GetAllFamilyMembers();
+        IEnumerable<FamilyMember> GetFamilyMembers(int employeeId);
         FamilyMember GetFamilyMemberById(int id);
         void CreateFamilyMember(FamilyMember familyMember);
         void UpdateFamilyMember(FamilyMember familyMember);

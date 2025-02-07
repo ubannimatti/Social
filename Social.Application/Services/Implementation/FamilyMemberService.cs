@@ -43,9 +43,9 @@ namespace Social.Application.Services.Implementation
             }
         }
 
-        public IEnumerable<FamilyMember> GetAllFamilyMembers()
+        public IEnumerable<FamilyMember> GetFamilyMembers(int employeeId)
         {
-            return _unitOfWork.FamilyMember.GetAll();
+            return _unitOfWork.FamilyMember.GetAll(x=>x.EmployeeId.Equals(employeeId));
         }
 
         public FamilyMember GetFamilyMemberById(int id)

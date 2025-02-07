@@ -45,7 +45,11 @@ namespace Social.Application.Services.Implementation
 
         public IEnumerable<Employee> GetAllEmployees()
         {
-            return _unitOfWork.Employee.GetAll();
+            return _unitOfWork.Employee.GetAll(includeProperties: "Taluk");
+        }
+        public IEnumerable<Employee> GetEmployeesByUser(string userName)
+        {
+            return _unitOfWork.Employee.GetAll(x=>x.CreatedBy.Equals(userName),includeProperties: "Taluk");
         }
 
         public Employee GetEmployeeById(int id)
@@ -53,9 +57,9 @@ namespace Social.Application.Services.Implementation
             return _unitOfWork.Employee.Get(u => u.EmployeeId == id, "EmployeeSkills, FamilyMembers");
         }
 
-        public void UpdateEmployee(Employee Employee)
+        public void UpdateEmployee(Employee employee)
         {
-            _unitOfWork.Employee.Update(Employee);
+            _unitOfWork.Employee.Update(employee);
             _unitOfWork.Save();
         }
     }

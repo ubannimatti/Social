@@ -48,6 +48,14 @@
 					<label asp-for="Employee.TalukId" class="ms-2"></label>
 					<span asp-validation-for="Employee.TalukId" class="text-danger"></span>
 				</div>
+				<div class="form-floating py-1 col-12 col-md-6">
+					<input asp-for="Employee.BankName" class="form-control border" disabled />
+					<label asp-for="Employee.BankName" class="ms-2"></label>
+				</div>
+				<div class="form-floating py-1 col-12 col-md-6">
+					<input asp-for="Employee.BankBranchName" class="form-control border" disabled />
+					<label asp-for="Employee.BankBranchName" class="ms-2"></label>
+				</div>
 				<div class="row mt-4 border-0">
 					<div>
 						<label><strong>ವಸತಿ ವಿವರ</strong></label>
@@ -131,8 +139,6 @@
 							<input asp-for="Employee.AyushmanBharatCardNumber" class="form-control border" disabled />
 							<label asp-for="Employee.AyushmanBharatCardNumber" class="ms-2"></label>
 						</div>
-					</div>
-					<div class="form-floating py-1 col-12 col-md-6">
 						<div class="checkbox mt-3">
 							<input class="form-check-input border" asp-for="Employee.HasHealthInsurance" disabled />
 							<label asp-for="Employee.HasHealthInsurance" class="form-label"></label>
@@ -141,8 +147,6 @@
 							<input asp-for="Employee.HealthInsuranceName" class="form-control border" disabled />
 							<label asp-for="Employee.HealthInsuranceName" class="ms-2"></label>
 						</div>
-					</div>
-					<div class="form-floating py-1 col-12 col-md-6">
 						<div class="checkbox mt-3">
 							<input class="form-check-input border" asp-for="Employee.HasRationCard" disabled />
 							<label asp-for="Employee.HasRationCard" class="form-label"></label>
@@ -155,18 +159,11 @@
 							<input class="form-check-input border" asp-for="Employee.HasNaregaJobCard" disabled />
 							<label asp-for="Employee.HasNaregaJobCard" class="form-label"></label>
 						</div>
-						<div class="form-floating py-1">
-							<input asp-for="Employee.BankName" class="form-control border" disabled />
-							<label asp-for="Employee.BankName" class="ms-2"></label>
-						</div>
-						<div class="form-floating py-1">
-							<input asp-for="Employee.BankBranchName" class="form-control border" disabled />
-							<label asp-for="Employee.BankBranchName" class="ms-2"></label>
-						</div>
+						
 					</div>
 					<div class="form-floating py-1 col-12 col-md-6">
 						<select asp-for="SelectedSkills" multiple asp-items="@Model.SkillList" disabled
-								class="form-control" style="height:17rem;">
+								class="form-control" style="height:23rem;">
 							<option disabled selected>-- Skills --</option>
 						</select>
 						<label asp-for="SelectedSkills" class="ms-2"></label>

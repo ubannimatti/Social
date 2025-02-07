@@ -10,6 +10,7 @@ namespace Social.Application.Services.Interface
     public interface IEmployeeService
     {
         IEnumerable<Employee> GetAllEmployees();
+        IEnumerable<Employee> GetEmployeesByUser(string userName);
         Employee GetEmployeeById(int id);
         void CreateEmployee(Employee employee);
         void UpdateEmployee(Employee employee);

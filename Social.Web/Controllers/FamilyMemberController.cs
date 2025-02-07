@@ -20,16 +20,27 @@ namespace Social.Web.Controllers
             _employeeService = employeeService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int employeeId)
         {
-            var employees = _familyMemberService.GetAllFamilyMembers().ToList();
-            return View(employees);
+            var familyMembersList = new FamilyMemberListVM();
+            List<FamilyMember> familyMembers = new List<FamilyMember>();
+            if (employeeId != 0)
+            {
+                familyMembersList.EmployeeId = employeeId;
+                familyMembersList.EmployeeName = _employeeService.GetEmployeeById(employeeId).EmployeeName;
+                familyMembers = _familyMemberService.GetFamilyMembers(employeeId).ToList();
+            }
+
+            familyMembersList.FamilyMembers = familyMembers;
+            return View(familyMembersList);
+
         }
 
-        public IActionResult Create()
+        public IActionResult Create(int employeeId)
         {
             FamilyMemberVM familyMemberVM = new()
             {
+                FamilyMember = new FamilyMember { EmployeeId = employeeId, FamilyMemberName = "" },
                 EmployeeList = GetEmployees()
             };
             return View(familyMemberVM);
@@ -40,9 +51,13 @@ namespace Social.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                familyMemberVm.FamilyMember.CreatedBy = User.Identity.Name;
+                familyMemberVm.FamilyMember.CreatedAt = DateTime.Now;
+                familyMemberVm.FamilyMember.ModifiedBy = User.Identity.Name;
+                familyMemberVm.FamilyMember.ModifiedAt = DateTime.Now;
                 _familyMemberService.CreateFamilyMember(familyMemberVm.FamilyMember);
                 TempData["success"] = "The Family Member has been created successfully.";
-                return RedirectToAction("Index");
+                return RedirectToAction("Index",new {employeeId = familyMemberVm.FamilyMember.EmployeeId});
             }
             familyMemberVm.EmployeeList = GetEmployees();
             return View(familyMemberVm);
@@ -67,9 +82,11 @@ namespace Social.Web.Controllers
         {
             if (ModelState.IsValid && familyMemberVm.FamilyMember.FamilyMemberId > 0)
             {
+                familyMemberVm.FamilyMember.ModifiedBy = User.Identity.Name;
+                familyMemberVm.FamilyMember.ModifiedAt = DateTime.Now;
                 _familyMemberService.UpdateFamilyMember(familyMemberVm.FamilyMember);
                 TempData["success"] = "The Family Member has been updated successfully.";
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", new { employeeId = familyMemberVm.FamilyMember.EmployeeId });
             }
             familyMemberVm.EmployeeList = GetEmployees();
             return View(familyMemberVm);
@@ -97,9 +114,10 @@ namespace Social.Web.Controllers
             FamilyMember? familyMember = _familyMemberService.GetFamilyMemberById(familyMemberVm.FamilyMember.FamilyMemberId);
             if (familyMember is not null)
             {
+                var employeeId = familyMemberVm.FamilyMember.EmployeeId;
                 _familyMemberService.DeleteFamilyMember(familyMember.FamilyMemberId);
                 TempData["success"] = "The Family Member has been deleted successfully.";
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", new { employeeId = employeeId });
             }
             TempData["error"] = "Failed to delete the Family Member.";
             return View();

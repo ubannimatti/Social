@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Social.Application.Common.Utility;
 using Social.Application.Services.Interface;
 using Social.Domain.Entities;
 using Social.Infrastructure.Data;
@@ -9,7 +10,7 @@ using Social.Web.ViewModels;
 
 namespace Social.Web.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class EmployeeController : Controller
     {
         private readonly IEmployeeService _employeeService;
@@ -26,6 +27,13 @@ namespace Social.Web.Controllers
         }
 
         public IActionResult Index()
+        {
+            var employees = _employeeService.GetEmployeesByUser(User.Identity.Name).ToList();
+            return View(employees);
+        }
+
+        [Authorize(Policy = SD.Policy_AdminOrDistrictOffier)]
+        public IActionResult MasterIndex()
         {
             var employees = _employeeService.GetAllEmployees().ToList();
             return View(employees);
@@ -46,6 +54,10 @@ namespace Social.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                employeeVm.Employee.CreatedBy = User.Identity.Name;
+                employeeVm.Employee.CreatedAt = DateTime.Now;
+                employeeVm.Employee.ModifiedBy = User.Identity.Name;
+                employeeVm.Employee.ModifiedAt = DateTime.Now;
                 _employeeService.CreateEmployee(employeeVm.Employee);
                 UpdateEmployeeSkills(employeeVm);
 
@@ -79,6 +91,8 @@ namespace Social.Web.Controllers
         {
             if (ModelState.IsValid && employeeVm.Employee.EmployeeId > 0)
             {
+                employeeVm.Employee.ModifiedBy = User.Identity.Name;
+                employeeVm.Employee.ModifiedAt = DateTime.Now;
                 _employeeService.UpdateEmployee(employeeVm.Employee);
 
                 _employeeSkillService.DeleteEmployeeSkills(employeeVm.Employee.EmployeeId);
@@ -87,8 +101,6 @@ namespace Social.Web.Controllers
                 TempData["success"] = "The Employee has been updated successfully.";
                 return RedirectToAction(nameof(Index));
             }
-
-
 
             employeeVm.TalukList = GetTalukList();
             employeeVm.SkillList = GetSkillList();
@@ -113,6 +125,24 @@ namespace Social.Web.Controllers
         }
 
         public IActionResult Details(int employeeId)
+        {
+            var emp = _employeeService.GetEmployeeById(employeeId);
+            EmployeeVM employeeVM = new()
+            {
+                TalukList = GetTalukList(),
+                SkillList = GetSkillList(),
+                Employee = emp,
+                SelectedSkills = emp.EmployeeSkills.Select(x => x.SkillId).ToList()
+            };
+            if (employeeVM.Employee == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            return View(employeeVM);
+        }
+
+        [Authorize(Policy = SD.Policy_AdminOrDistrictOffier)]
+        public IActionResult MasterDetails(int employeeId)
         {
             var emp = _employeeService.GetEmployeeById(employeeId);
             EmployeeVM employeeVM = new()

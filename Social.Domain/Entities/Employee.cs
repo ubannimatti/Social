@@ -110,5 +110,15 @@ namespace Social.Domain.Entities
 
         [ValidateNever]
         public IEnumerable<FamilyMember> FamilyMembers { get; set; }
+
+        [ValidateNever]
+        public string CreatedBy { get; set; }
+        [ValidateNever]
+        public DateTime CreatedAt { get; set; }
+
+        [ValidateNever]
+        public string ModifiedBy { get; set; }
+        [ValidateNever]
+        public DateTime ModifiedAt { get; set; }
     }
 }
