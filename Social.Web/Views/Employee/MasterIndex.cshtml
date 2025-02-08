@@ -1,59 +1,158 @@
-﻿@model IEnumerable<Employee>
+﻿@model EmployeeFilterVM
+
 
 <div class="w-100 card border-0 p-4">
-    <div class="card-header bg-success bg-gradient ml-0 py-3">
-        <div class="row">
-            <div class="col-12 text-center">
-                <h2 class="text-white py-2">ಮ್ಯಾನ್ಯುಯಲ್ ಸ್ಕ್ಯಾವೆಂಜರ್ಸ್</h2>
-            </div>
-        </div>
-    </div>
-    <div class="card-body border p-4">
-        <div class="row pb-3">
-            <div class="col-6 offset-6 text-end">
-                <a asp-controller="Employee" asp-action="Create" class="btn btn-secondary">
-                    <i class="bi bi-plus-circle"></i> ಮ್ಯಾನ್ಯುಯಲ್ ಸ್ಕ್ಯಾವೆಂಜರ್ಸ್ ಗಳ ಸೇರ್ಪಡೆ
-                </a>
-            </div>
-        </div>
+	<div class="card-header bg-success bg-gradient ml-0 py-3">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h2 class="text-white py-2">ಮ್ಯಾನ್ಯುಯಲ್ ಸ್ಕ್ಯಾವೆಂಜರ್ಸ್</h2>
+			</div>
+		</div>
+	</div>
+	<div class="card-body border p-4">
+		<form method="post" enctype="multipart/form-data">
+			<div class="row p-3">
+				@* <div asp-validation-summary="All"></div>  *@
+				<div class="mb-4">
+					<label><strong>Filters</strong></label>
+				</div>
+				<div class="col-12 pb-3 row">
+					<div class="col-6 pb-3 col-md-3">
+						<label>Has Own House</label>
+						<select asp-for="HasOwnHouse" class="form-control">
+							<option value="">All</option>
+							<option value="true">Yes</option>
+							<option value="false">No</option>
+						</select>
+					</div>
+					<div class="col-6 pb-3 col-md-3">
+						<label>Has Site</label>
+						<select asp-for="HasSite" class="form-control">
+							<option value="">All</option>
+							<option value="true">Yes</option>
+							<option value="false">No</option>
+						</select>
+					</div>
+					<div class="col-6 pb-3 col-md-3">
+						<label>Has Toilet</label>
+						<select asp-for="HasToilet" class="form-control">
+							<option value="">All</option>
+							<option value="true">Yes</option>
+							<option value="false">No</option>
+						</select>
+					</div>
+					<div class="col-6 pb-3 col-md-3">
+						<label>Has Electricity</label>
+						<select asp-for="HasElectricity" class="form-control">
+							<option value="">All</option>
+							<option value="true">Yes</option>
+							<option value="false">No</option>
+						</select>
+					</div>
+					<div class="col-6 pb-3 col-md-3">
+						<label>Has Water Connection</label>
+						<select asp-for="HasWaterConnection" class="form-control">
+							<option value="">All</option>
+							<option value="true">Yes</option>
+							<option value="false">No</option>
+						</select>
+					</div>
+					<div class="col-6 pb-3 col-md-3">
+						<label>Has Aadhar Card</label>
+						<select asp-for="HasAadharCard" class="form-control">
+							<option value="">All</option>
+							<option value="true">Yes</option>
+							<option value="false">No</option>
+						</select>
+					</div>
+					<div class="col-6 pb-3 col-md-3">
+						<label>Has Aayushmann Bharat Card</label>
+						<select asp-for="HasAayushmannBharatCard" class="form-control">
+							<option value="">All</option>
+							<option value="true">Yes</option>
+							<option value="false">No</option>
+						</select>
+					</div>
+					<div class="col-6 pb-3 col-md-3">
+						<label>Has Aayushmann Bharat Card</label>
+						<select asp-for="HasHealthInsurance" class="form-control">
+							<option value="">All</option>
+							<option value="true">Yes</option>
+							<option value="false">No</option>
+						</select>
+					</div>
+					<div class="col-6 pb-3 col-md-3">
+						<label>Has Ration Card</label>
+						<select asp-for="HasRationCard" class="form-control">
+							<option value="">All</option>
+							<option value="true">Yes</option>
+							<option value="false">No</option>
+						</select>
+					</div>
+					<div class="col-6 pb-3 col-md-3">
+						<label>Has Narega Job Card</label>
+						<select asp-for="HasNaregaJobCard" class="form-control">
+							<option value="">All</option>
+							<option value="true">Yes</option>
+							<option value="false">No</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-12 pb-3 col-md-3">
+					<button type="submit" class="btn btn-primary w-100">Filter</button>
+				</div>
+			</div>
+		</form>
+	</div>
 
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>
-                        ಹೆಸರು
-                    </th>
-                    <th>
-                        ಐ. ಡಿ. ನಂಬರ್
-                    </th>
-                    <th>
-                        ಗ್ರಾಮ
-                    </th>
-                    <th>
-                        ತಾಲ್ಲೂಕು
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var obj in Model)
-                {
-                    <tr>
-                        <td>@obj.EmployeeName</td>
-                        <td>@obj.IdentityNumber</td>
-                        <td>@obj.Village</td>
-                        <td>@obj.Taluk.TalukName</td>
-                        <td>
-                            <div class="w-75 btn-group" role="group">
-                                <a asp-controller="Employee" asp-action="MasterDetails" asp-route-employeeId="@obj.EmployeeId"
-                                   class="btn btn-success mx-2">
-                                    Details
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+	@if (Model.Employees != null && Model.Employees.Any())
+	{
+		<div class="card-body border p-4">
+			<table class="table table-bordered table-striped">
+				<thead>
+					<tr>
+						<th>
+							ಹೆಸರು
+						</th>
+						<th>
+							ಐ. ಡಿ. ನಂಬರ್
+						</th>
+						<th>
+							ಗ್ರಾಮ
+						</th>
+						<th>
+							ತಾಲ್ಲೂಕು
+						</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var obj in Model.Employees)
+					{
+						<tr>
+							<td>@obj.EmployeeName</td>
+							<td>@obj.IdentityNumber</td>
+							<td>@obj.Village</td>
+							<td>@obj.Taluk.TalukName</td>
+							<td>
+								<div class="w-75 btn-group" role="group">
+									<a asp-controller="Employee" asp-action="MasterDetails" asp-route-employeeId="@obj.EmployeeId"
+									   class="btn btn-success mx-2">
+										Details
+									</a>
+								</div>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	}
+
 </div>
+
+@section Scripts {
+	@{
+		<partial name="_ValidationScriptsPartial" />
+	}
+}

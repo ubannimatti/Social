@@ -35,8 +35,63 @@ namespace Social.Web.Controllers
         [Authorize(Policy = SD.Policy_AdminOrDistrictOffier)]
         public IActionResult MasterIndex()
         {
-            var employees = _employeeService.GetAllEmployees().ToList();
-            return View(employees);
+            var empFilterVm = new EmployeeFilterVM();
+            return View(empFilterVm);
+        }
+
+        [Authorize(Policy = SD.Policy_AdminOrDistrictOffier)]
+        [HttpPost]
+        public IActionResult MasterIndex(EmployeeFilterVM empFilter)
+        {
+            var employees = _employeeService.GetAllEmployees();
+
+            if(empFilter.HasOwnHouse != null)
+            {
+                employees = employees.Where(x => x.HasAHouse.Equals(empFilter.HasOwnHouse));
+            }
+            if (empFilter.HasSite != null)
+            {
+                employees = employees.Where(x => x.HasASite.Equals(empFilter.HasSite));
+            }
+            if (empFilter.HasToilet != null)
+            {
+                employees = employees.Where(x => x.HasAToilet.Equals(empFilter.HasToilet));
+            }
+            if (empFilter.HasElectricity != null)
+            {
+                employees = employees.Where(x => x.HasElectricityConnection.Equals(empFilter.HasElectricity));
+            }
+            if (empFilter.HasWaterConnection != null)
+            {
+                employees = employees.Where(x => x.HasWaterConnection.Equals(empFilter.HasWaterConnection));
+            }
+            if (empFilter.HasSite != null)
+            {
+                employees = employees.Where(x => x.HasAHouse.Equals(empFilter.HasSite));
+            }
+            if (empFilter.HasAadharCard != null)
+            {
+                employees = employees.Where(x => x.HasAadharCard.Equals(empFilter.HasAadharCard));
+            }
+            if (empFilter.HasAayushmannBharatCard != null)
+            {
+                employees = employees.Where(x => x.HasAyushmanBharatCard.Equals(empFilter.HasAayushmannBharatCard));
+            }
+            if (empFilter.HasHealthInsurance != null)
+            {
+                employees = employees.Where(x => x.HasHealthInsurance.Equals(empFilter.HasHealthInsurance));
+            }
+            if (empFilter.HasRationCard != null)
+            {
+                employees = employees.Where(x => x.HasRationCard.Equals(empFilter.HasRationCard));
+            }
+            if (empFilter.HasNaregaJobCard != null)
+            {
+                employees = employees.Where(x => x.HasNaregaJobCard.Equals(empFilter.HasNaregaJobCard));
+            }
+
+            empFilter.Employees = employees.ToList();
+            return View(empFilter);
         }
 
         public IActionResult Create()
