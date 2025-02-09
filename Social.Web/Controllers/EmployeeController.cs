@@ -116,7 +116,7 @@ namespace Social.Web.Controllers
                 _employeeService.CreateEmployee(employeeVm.Employee);
                 UpdateEmployeeSkills(employeeVm);
 
-                TempData["success"] = "The employee has been created successfully.";
+                TempData["success"] = "ಮ್ಯಾನ್ಯುಯಲ್ ಸ್ಕ್ಯಾವೆಂಜರ್ಸ್ ಅನ್ನು ಸೇರಿಸಲಾಗಿದೆ";
                 return RedirectToAction("Index");
             }
             employeeVm.TalukList = GetTalukList();
@@ -153,7 +153,7 @@ namespace Social.Web.Controllers
                 _employeeSkillService.DeleteEmployeeSkills(employeeVm.Employee.EmployeeId);
                 UpdateEmployeeSkills(employeeVm);
 
-                TempData["success"] = "The Employee has been updated successfully.";
+                TempData["success"] = "ಮ್ಯಾನ್ಯುಯಲ್ ಸ್ಕ್ಯಾವೆಂಜರ್ಸ್ ಅನ್ನು ನವೀಕರಿಸಲಾಗಿದೆ";
                 return RedirectToAction(nameof(Index));
             }
 
@@ -222,7 +222,7 @@ namespace Social.Web.Controllers
             if (employee is not null)
             {
                 _employeeService.DeleteEmployee(employee.EmployeeId);
-                TempData["success"] = "The Employee has been deleted successfully.";
+                TempData["success"] = "ಮ್ಯಾನ್ಯುಯಲ್ ಸ್ಕ್ಯಾವೆಂಜರ್ಸ್ ಅನ್ನು ಅಳಿಸಲಾಗಿದೆ";
                 return RedirectToAction(nameof(Index));
             }
             TempData["error"] = "Failed to delete the Employee.";

@@ -15,10 +15,11 @@ namespace Social.Domain.Entities
         public int FamilyMemberId { get; set; }
 
         [MaxLength(30)]
-        [DisplayName("Member Name")]
+        [DisplayName("ಕುಟುಂಬದ ಸದಸ್ಯರ ಹೆಸರು")]
         public required string FamilyMemberName { get; set; }
 
 
+        [DisplayName("ಮ್ಯಾನ್ಯುಯಲ್ ಸ್ಕ್ಯಾವೆಂಜರ್ಸ್ ಹೆಸರು")]
         [ForeignKey("Employee")]
         public int EmployeeId { get; set; }
 
@@ -26,19 +27,19 @@ namespace Social.Domain.Entities
         public Employee Employee { get; set; }
 
 
-        [DisplayName("Relationship")]
+        [DisplayName("ಸಂಬಂಧ")]
         public string Relationship { get; set; }
 
         [Range(5, 60)]
-        [DisplayName("Age")]
+        [DisplayName("ವಯಸ್ಸು")]
         public int Age { get; set; }
 
         [MaxLength(30)]
-        [DisplayName("Education")]
+        [DisplayName("ವಿಧ್ಯಾರ್ಹತೆ")]
         public string Education { get; set; }
 
         [MaxLength(30)]
-        [DisplayName("Required Training")]
+        [DisplayName("ಅಗತ್ಯವಿರುವ ತರಬೇತಿ")]
         public string RequiredTraining { get; set; }
 
         [ValidateNever]

@@ -11,20 +11,20 @@
         if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_DistrictOfficer))
         {
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Account" asp-action="Register">Register</a>
+                <a class="nav-link" asp-controller="Account" asp-action="Register">ರೆಜಿಸ್ಟರ್‌</a>
             </li>
         }
         <li class="nav-item">
-            <a class="nav-link" href="#">Hello @UserManager.GetUserName(User)</a>
+            <a class="nav-link" href="#">ಹಲ್ಲೋ @UserManager.GetUserName(User)</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" asp-controller="Account" asp-action="Logout">Logout</a>
+            <a class="nav-link" asp-controller="Account" asp-action="Logout">ಲಾಗ್‌ಔಟ್</a>
         </li>
     }
     else
     {
         <li class="nav-item">
-            <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
+            <a class="nav-link" asp-controller="Account" asp-action="Login">ಲಾಗಿನ್</a>
         </li>
     }
 </ul>
